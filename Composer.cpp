@@ -1,12 +1,9 @@
-#include "Composer.h";
 #include <string>
 #include <stdint.h>
+#include "Composer.h";
+#include "ComposerExceptions.h"
+
 using namespace std;
-class symbolConvertionException : public exception{
-	const char * what() const throw(){
-		return "Wrong parametrs. Unable to convert to int\n";
-	}
-};
 
 uint64_t Composer::charToDigit(char symbol){
 	switch (symbol){
@@ -27,6 +24,7 @@ uint64_t Composer::charToDigit(char symbol){
 uint64_t Composer::composition(const string & stroka){
 	uint64_t result = 1;
 	uint64_t currentNumber = 0;
+
 	for (auto i = stroka.begin(); i < stroka.end(); ++i)
 		if (*i == '*'){
 			result = result * currentNumber;
