@@ -38,7 +38,7 @@ void Decomposer::start(const string & inputFileName, const string & outputFileNa
 	outputFile.close();
 }
 
-string Decomposer::decomposition(uint64_t number){
+string Decomposer::decomposition(uint64_t number) const{
 
 	string decompositionResult = "";
 	int rightBorder = ceil(number / 2);
@@ -65,7 +65,7 @@ bool Decomposer::checkNumber(const string & number){
 			if (!(number[i] >= '0' && number[i] <= '9'))
 				throw inappropriateSymbolsException();
 
-		//checking for length
+		//comparing with max supported value
 		if (number.length() > MAX_UINT64_T_LENGTH)
 			throw valueException();
 		else if (number.length() == MAX_UINT64_T_LENGTH)
@@ -79,28 +79,3 @@ bool Decomposer::checkNumber(const string & number){
 
 	return true;
 }
-
-uint64_t Decomposer::charToDigit(char symbol){
-	switch (symbol){
-	case '0': return 0; break;
-	case '1': return 1; break;
-	case '2': return 2; break;
-	case '3': return 3; break;
-	case '4': return 4; break;
-	case '5': return 5; break;
-	case '6': return 6; break;
-	case '7': return 7; break;
-	case '8': return 8; break;
-	case '9': return 9; break;
-	default: throw symbolConvertionException();
-	}
-}
-
-uint64_t Decomposer::stringToUint64_t(const string & number){
-	uint64_t result = 0;
-
-	for (auto i = number.begin(); i < number.end(); ++i)
-		result = result * 10 + charToDigit(*i);
-
-	return result;
-};

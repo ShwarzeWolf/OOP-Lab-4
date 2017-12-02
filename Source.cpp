@@ -2,15 +2,26 @@
 #include <stdint.h>
 #include <string>
 #include "Decomposer.h"
+#include "DecomposerExceptions.h"
+#include "Composer.h"
 using namespace std;
 
-int main(/*int argc, char * argv[]*/){
-	string inputFileName = "testIn.txt";
-	string outputFileName = "testOut.txt";
-
-	Decomposer decomposer;
+int main(int argc, char * argv[]){
 	try{
-		decomposer.start(inputFileName, outputFileName);
+		if (argc < 2)
+			throw inputOutputException();
+
+		string inputFileName = argv[1];
+		string outputFileName = argv[2];
+
+		Decomposer decomposer;
+		try{
+			decomposer.start(inputFileName, outputFileName);
+		}
+		catch (exception & error){
+			cout << error.what() << endl;
+		}
+
 	}
 	catch (exception & error){
 		cout << error.what() << endl;

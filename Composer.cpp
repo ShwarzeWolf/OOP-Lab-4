@@ -1,27 +1,40 @@
 #include <string>
 #include <stdint.h>
+#include <fstream>
+#include <iostream>
 #include "Composer.h";
 #include "ComposerExceptions.h"
 
 using namespace std;
 
-uint64_t Composer::charToDigit(char symbol){
-	switch (symbol){
-	case '0': return 0; break;
-	case '1': return 1; break;
-	case '2': return 2; break;
-	case '3': return 3; break;
-	case '4': return 4; break;
-	case '5': return 5; break;
-	case '6': return 6; break;
-	case '7': return 7; break;
-	case '8': return 8; break;
-	case '9': return 9; break;
-	default: throw symbolConvertionException();
-	}
+void Composer::start(const string & inputFileName, const string & outputFileName){
+	ifstream inputFile(inputFileName);
+	ofstream outputFile(outputFileName);
+
+	if (inputFile.bad())
+		throw inputOutputException();
+	cout << "File was opened sucessfully\n";
+
+	string currentFileString("");
+
+	while (!inputFile.eof()){
+
+		try{
+			inputFile >> currentFileString;
+			outputFile << composition(currentFileString) << endl;
+		}
+		catch (exception & error){
+			cout << error.what() << endl;
+		}
+
+	};
+
+	cout << "Program was executed" << endl;
+	inputFile.close();
+	outputFile.close();
 }
 
-uint64_t Composer::composition(const string & stroka){
+uint64_t Composer::composition(const string & stroka) const{
 	uint64_t result = 1;
 	uint64_t currentNumber = 0;
 
